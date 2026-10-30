@@ -13,9 +13,9 @@ uv run --no-project --with duckdb scripts/duckdb_query.py -f query.sql
 
 | Database | Contents |
 | --- | --- |
-| `securities_data` | Lakekeeper warehouse `securities_data` at `http://192.168.0.20:8181/catalog`. Daily stock and ETF bars and option history. See [stock-data.md](stock-data.md) and [options-data.md](options-data.md). |
+| `securities_data` | Lakekeeper warehouse `securities_data` at `http://192.168.0.20:8181/catalog`. Daily stock and ETF bars, option history, and the per-symbol option volume and open-interest rollups. See [stock-data.md](stock-data.md) and [options-data.md](options-data.md). |
 | `memory` | The server's empty in-memory database. |
 
 `securities_data` storage is the Garage bucket `s3://securities-data` (Iceberg prefix `iceberg`) at `http://192.168.0.20:3900`. Query the attached database. The script's attach uses catalog authorization `none`, which is how this warehouse is published.
 
-Quote the option column `"right"`. DuckDB reserves that word, and a bare `right` is a syntax error. Filter `option_data` on `date` and, when the symbol is known, on `symbol`. On 2026-10-29 that table held 92,443,500 rows.
+Quote the option column `"right"`. DuckDB reserves that word, and a bare `right` is a syntax error. `option_data` and `option_symbol_open_interest` both use it. Filter `option_data` on `date` and, when the symbol is known, on `symbol`. On 2026-10-29 that table held 92,443,500 rows.

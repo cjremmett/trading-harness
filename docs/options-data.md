@@ -72,6 +72,28 @@ Storage root: `s3://securities-data/iceberg/01a17ffa-246b-7c21-b78b-c99693114dbb
 | `date` | `DATE` | Trading session. Same clock as `option_data.date`. |
 | `total_volume` | `BIGINT` | Sum of `option_data.volume` for that symbol and session. |
 
+## Per-symbol open interest
+
+The same jobs write one rollup row per underlying, session, and right. `total_open_interest` is the sum of contract `open_interest` for that right. `right` is `call` or `put`. Quote it as `"right"`.
+
+A stored symbol-day that does not yet have these rows is filled from `option_data` without loading the chain again. An empty chain still produces no row. Absence of a row is not `total_open_interest = 0`.
+
+Query name: `securities_data.securities.option_symbol_open_interest`
+
+Storage root: `s3://securities-data/iceberg/01a18a5b-4c8d-7992-874e-9bed300bb4fb`
+
+| Column | DuckDB type | Meaning |
+| --- | --- | --- |
+| `symbol` | `VARCHAR` | Underlying ticker. |
+| `date` | `DATE` | Trading session. Same clock as `option_data.date`. |
+| `right` | `VARCHAR` | `call` or `put`. Quote it as `"right"`. |
+| `total_open_interest` | `BIGINT` | Sum of `option_data.open_interest` for that symbol, session, and right. |
+
+```bash
+uv run --no-project --with duckdb scripts/duckdb_query.py \
+  "SELECT \"right\", total_open_interest FROM securities_data.securities.option_symbol_open_interest WHERE symbol = 'A' AND date = DATE '2025-10-27' ORDER BY \"right\""
+```
+
 ## Underlying list
 
 `ThetaDataSecuritiesWorkflow` stores ThetaData's option-underlying list: one row per symbol per America/New_York calendar day the job ran. That `date` is the snapshot's calendar day, so it can fall on the morning after `option_data.date`. Join to the chain on `symbol`.
