@@ -14,7 +14,6 @@ uv run --no-project --with duckdb scripts/duckdb_query.py -f query.sql
 | Database | Contents |
 | --- | --- |
 | `securities_data` | Lakekeeper warehouse `securities_data` at `http://192.168.0.20:8181/catalog`. Daily stock and ETF bars and option history. See [stock-data.md](stock-data.md) and [options-data.md](options-data.md). |
-| `kweb_holdings` | Attached when the engine starts. ETF holdings live in `kweb_holdings.holdings.kweb_holdings`. Column names contain spaces and punctuation, so quote them. `DESCRIBE` that table before using it. |
 | `memory` | The server's empty in-memory database. |
 
 `securities_data` storage is the Garage bucket `s3://securities-data` (Iceberg prefix `iceberg`) at `http://192.168.0.20:3900`. Query the attached database. The script's attach uses catalog authorization `none`, which is how this warehouse is published.

@@ -1,6 +1,6 @@
 # Options data
 
-Historical end-of-day option chains loaded by `ThetaDataOptionDataWorkflow` and `ThetaDataOptionBackfillWorkflow` in `~/finance-tools`. The daily job stores the latest trading session. The backfill stores earlier sessions in a window of one calendar year before that latest session, skipping weekends and full-market holidays. Both jobs write the same table. A symbol is included when it appears in both the latest stock-symbol snapshot and the latest option-underlying snapshot.
+Historical end-of-day option chains loaded by `ThetaDataOptionDataWorkflow` and `ThetaDataOptionBackfillWorkflow` in `~/finance-tools`. A symbol is included when it appears in both the latest stock-symbol snapshot and the latest option-underlying snapshot.
 
 ## Table
 

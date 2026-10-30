@@ -1,6 +1,6 @@
 # Stock data
 
-Daily US stock and ETF bars loaded by `MarketParquetStockDataWorkflow` in `~/finance-tools`. The source files are MarketParquet `stock_daily` and `etf_daily`. Each session is appended once. The job does not delete a session after it ages out of the free MarketParquet window, which is about one trailing year of completed sessions.
+Daily US stock and ETF bars loaded by `MarketParquetStockDataWorkflow` in `~/finance-tools`. The source files are MarketParquet `stock_daily` and `etf_daily`. Each session is appended once.
 
 ## Table
 
@@ -63,5 +63,3 @@ Storage root: `s3://securities-data/iceberg/01a17d48-00bd-7c43-b56f-d0457674feab
 | --- | --- | --- |
 | `symbol` | `VARCHAR` | Ticker returned by ThetaData for that snapshot. |
 | `date` | `DATE` | America/New_York calendar day of the snapshot. |
-
-`securities_data.historical_data.stocks` is a separate table in this warehouse. The finance-tools ETL does not load it. Daily bars are `securities.stock_data`.
